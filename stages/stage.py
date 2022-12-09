@@ -4,6 +4,7 @@ from objects.object import Object
 
 
 class Stage:
+    #TODO, debug mode with borders around stages
     def __init__(self, start_x: int, width: int, obstacles: List[Object]):
         self.width = width
         self.start_x = start_x

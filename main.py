@@ -4,6 +4,7 @@ import numpy
 from characters.miel_monteur import MielMonteur
 from objects.object import Object
 from stages.test_stage import TestStage
+from stages.test_stage2 import TestStage2
 
 COLOURS = {
     'gray': (150, 150, 150),
@@ -29,7 +30,8 @@ def main():
 
     #TODO randomly generate stages
     stages = [
-        TestStage(start_x=1000)
+        TestStage(start_x=1000),
+        TestStage2(start_x=1500)
     ]
 
     for stage in stages:

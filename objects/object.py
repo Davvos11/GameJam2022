@@ -4,6 +4,7 @@ import pygame
 
 
 class Object:
+    #TODO: Borders with debug mode
     """
     :param bounding_box, width and height of model
     :param sprites, set of sprites for the model
