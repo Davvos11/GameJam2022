@@ -1,5 +1,7 @@
 from typing import Dict
 
+import pygame
+
 
 class Character:
     """
@@ -16,6 +18,8 @@ class Character:
         self.x = position['x']
         self.y = position['y']
         self.health = health
+
+        self.rectangle = pygame.Rect(self.x, self.y, self.width, self.height)
 
     def _move(self, delta_x, delta_y):
         self.x += delta_x
