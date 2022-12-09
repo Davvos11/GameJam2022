@@ -34,13 +34,14 @@ def main():
             if event.type == pygame.QUIT:
                 running = False
 
-            # Draw background
-            screen.fill(COLOURS['gray'])
-            # Draw characters
-            for obj in objects:
-                pygame.draw.rect(screen, COLOURS['blue'], obj.rectangle)
+        # Draw background
+        screen.fill(COLOURS['gray'])
+        # Draw characters
+        for obj in objects:
+            obj.update_position(objects)
+            pygame.draw.rect(screen, COLOURS['blue'], obj.rectangle)
 
-            pygame.display.update()
+        pygame.display.update()
 
     pygame.quit()
 
