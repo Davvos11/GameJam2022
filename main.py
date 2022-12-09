@@ -1,5 +1,9 @@
+import pygame
+
+
 def main():
-    print("Wie dit leest mag nog een biertje :)")
+    # Initialise pygame
+    pygame.init()
 
 
 if __name__ == '__main__':
