@@ -2,15 +2,12 @@ import pygame
 import numpy
 
 from characters.miel_monteur import MielMonteur
+from objects.object import Object
 
 COLOURS = {
     'gray': (150, 150, 150),
     'blue': (0, 0, 255)
 }
-
-MIEL = MielMonteur({'height': 200, 'width': 50}, {}, position={'x': 300, 'y': 500})
-
-characters = [MIEL]
 
 
 def main():
@@ -19,6 +16,13 @@ def main():
 
     # Show window
     screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
+
+    MIEL = MielMonteur({'height': 200, 'width': 50}, {}, {'x': 300, 'y': 500})
+
+    GROUND = Object({'height': screen.get_height() // 4, 'width': screen.get_width()},
+                    {}, {'x': 0, 'y': screen.get_height() // 4 * 3})
+
+    objects = [GROUND, MIEL]
 
     # Main loop
     running = True
@@ -33,8 +37,8 @@ def main():
             # Draw background
             screen.fill(COLOURS['gray'])
             # Draw characters
-            for character in characters:
-                pygame.draw.rect(screen, COLOURS['blue'], character.rectangle)
+            for obj in objects:
+                pygame.draw.rect(screen, COLOURS['blue'], obj.rectangle)
 
             pygame.display.update()
 
