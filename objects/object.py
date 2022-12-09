@@ -22,7 +22,7 @@ class Object:
 
         self.rectangle = pygame.Rect(self._position['x'], self._position['y'], self.width, self.height)
 
-    def _move(self, delta_x, delta_y):
+    def _move(self, delta_x=0, delta_y=0):
         self.rectangle.move_ip(delta_x, delta_y)
         self._position['x'] += delta_x
         self._position['y'] += delta_y
@@ -53,3 +53,18 @@ class Object:
                 # Set the speed in this direction to 0
                 self.speed[d] = 0
 
+    def move_right(self, delta_x):
+        assert delta_x > 0
+        self._move(delta_x=delta_x)
+
+    def move_left(self, delta_x):
+        assert delta_x < 0
+        self._move(delta_x=-delta_x)
+
+    def move_up(self, delta_y):
+        assert delta_y < 0
+        self._move(delta_y=-delta_y)
+
+    def move_down(self, delta_y):
+        assert delta_y > 0
+        self._move(delta_y=delta_y)

@@ -9,4 +9,5 @@ class Stage:
         self.start_x = start_x
         self.obstacles = obstacles
 
-        #TODO Correct for obstacle position
+        for obstacle in self.obstacles:
+            obstacle.move_right(self.start_x)
