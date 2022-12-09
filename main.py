@@ -6,7 +6,7 @@ def main():
     pygame.init()
 
     # Show window
-    screen = pygame.display.set_mode((640, 240))
+    screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
 
     # Main loop
     running = True
