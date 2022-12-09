@@ -3,6 +3,7 @@ import numpy
 
 from characters.miel_monteur import MielMonteur
 from objects.object import Object
+from stages.test_stage import TestStage
 
 COLOURS = {
     'gray': (150, 150, 150),
@@ -19,10 +20,20 @@ def main():
 
     MIEL = MielMonteur({'height': 200, 'width': 50}, {}, {'x': 300, 'y': 500})
 
+    GROUND_HEIGHT = screen.get_height() // 4 * 3
     GROUND = Object({'height': screen.get_height() // 4, 'width': screen.get_width()},
-                    {}, {'x': 0, 'y': screen.get_height() // 4 * 3})
+                    {}, {'x': 0, 'y': GROUND_HEIGHT})
+
 
     objects = [GROUND, MIEL]
+
+    #TODO randomly generate stages
+    stages = [
+        TestStage(start_x=1000)
+    ]
+
+    for stage in stages:
+        objects.extend(stage.obstacles)
 
     # Main loop
     running = True
