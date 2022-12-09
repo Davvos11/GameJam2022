@@ -12,6 +12,8 @@ def main():
     running = True
     while running:
         for event in pygame.event.get():
+            if event.type == pygame.KEYDOWN and pygame.key.get_pressed()[pygame.K_ESCAPE]:
+                running = False
             if event.type == pygame.QUIT:
                 running = False
 
