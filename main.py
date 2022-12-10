@@ -50,7 +50,7 @@ def main():
         if keys[K_RIGHT]:
             MIEL.move_right(STEP_SIZE)
         if keys[K_LEFT]:
-            MIEL.move_right(STEP_SIZE)
+            MIEL.move_left(STEP_SIZE)
 
         for event in pygame.event.get():
             # Quit on ESCAPE or close
