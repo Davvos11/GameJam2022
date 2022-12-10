@@ -23,6 +23,14 @@ class Character(Object):
 
         self.move_up(200, Character.JUMP_FRAMES)
 
+    def move_miel_right(self, delta_x, other_obstacles: ['Object'], frames=1, type=0):
+        for obstacle in other_obstacles:
+            obstacle.move_left(delta_x, frames=frames, type=type)
+
+    def move_miel_left(self, delta_x, other_obstacles, frames=1, type=0):
+        for obstacle in other_obstacles:
+            obstacle.move_right(delta_x, frames=frames, type=type)
+
     def animate(self):
         if self.animation_cooldown_current == 0:
             self.animation_count = (self.animation_count + 1) % len(self.sprites[self.current_animation])

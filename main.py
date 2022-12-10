@@ -47,6 +47,7 @@ def main():
     # Main loop
     running = True
     while running:
+        obstacles = [obstacle for obstacle in objects if (obstacle != GROUND and obstacle != MIEL)]
         keys = key.get_pressed()
         # If no key is pressed, make Miel idle
         if not pygame.event.get():
@@ -55,12 +56,12 @@ def main():
         if keys[K_ESCAPE]:
             break
         if keys[K_RIGHT]:
-            MIEL.move_right(STEP_SIZE)
+            MIEL.move_miel_right(STEP_SIZE, other_obstacles=obstacles)
             MIEL.current_animation = 'running'
             MIEL.inversed = False
             MIEL.rotation_speed = MIEL.rotation_speed_default
         if keys[K_LEFT]:
-            MIEL.move_left(STEP_SIZE)
+            MIEL.move_miel_left(STEP_SIZE, other_obstacles=obstacles)
             MIEL.current_animation = 'running'
             MIEL.inversed = True
             MIEL.rotation_speed = MIEL.rotation_speed_default
