@@ -18,10 +18,8 @@ class Character(Object):
 
     def jump(self):
         # You may jump if you are on the ground and stable in the y direction
-        if not(self.delta[1] == Object.GRAVITY and self.colliding['y']):
-            return
-
-        self.move_up(200, Character.JUMP_FRAMES)
+        if self.delta[1] == Object.GRAVITY and self.colliding['y']:
+            self.move_up(500, Character.JUMP_FRAMES)
 
     def move_miel_right(self, delta_x, other_obstacles: ['Object'], frames=1, type=0):
         for obstacle in other_obstacles:

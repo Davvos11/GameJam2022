@@ -5,7 +5,7 @@ import pygame
 
 
 class Object:
-    GRAVITY = 1
+    GRAVITY = 5
     # TODO: Borders with debug mode
     """
     :param bounding_box, width and height of model
@@ -34,6 +34,7 @@ class Object:
         self.rectangle = pygame.Rect(position['x'], position['y'], self.width, self.height)
         self.moves = []
         self.frame = 0
+        self.stable_y = False
 
     def _add_move(self, delta_x=0, delta_y=0, frames=1, type=0):
         self.moves.append(Move(delta_x, delta_y, frames=frames, type=type))
@@ -49,7 +50,7 @@ class Object:
         rectangles.remove(self.rectangle)
         return self.rectangle.collidelist(rectangles)
 
-    def apply_moves(self, other_objects: ['Object']):
+    def apply_moves(self, other_objects: ['Object'], time_since_update: int):
         # Each move creates an x and y delta, combine them and apply the moves
         move_deltas = [move.get_frame_delta() for move in self.moves]
 
@@ -66,12 +67,16 @@ class Object:
             move_deltas
         )
 
+        # Multiply the move delta with the time since the last frame update
+        # This makes it so that the speed is consistent across systems and fps
+        multiplier = 16 / time_since_update
+
         self.delta = delta
 
         # For both directions check whether the move can be made:
         for index, direction in enumerate(['x', 'y']):
             # Temporarily move the box and see if there are collissions
-            self._move_rect(delta[index], direction)
+            self._move_rect(delta[index] * multiplier, direction)
 
             # Check for collisions
             collision = self._check_collisions(other_objects)
@@ -82,7 +87,7 @@ class Object:
             self.colliding[direction] = True
 
             # If there are collisions, place back to old coord
-            self._move_rect(-delta[index], direction)
+            self._move_rect(-delta[index] * multiplier, direction)
 
         for move in self.moves:
             if move.frames <= 0:

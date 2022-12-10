@@ -77,11 +77,17 @@ def main():
         object_debug_rects.append(get_object_debug_rect(obj, debug_colour_index))
         debug_colour_index = (debug_colour_index + 1) % len(DEBUG_COLOURS)
 
-    STEP_SIZE = 1.5
+    STEP_SIZE = 5
+
+    clock = pygame.time.Clock()
 
     # Main loop
     running = True
     while running:
+        # Get time elapsed since last frame update
+        time_since_update = clock.tick()
+        time_since_update = time_since_update if time_since_update != 0 else 20
+
         keys = key.get_pressed()
         # If no key is pressed, make Miel idle
         if not pygame.event.get():
@@ -113,7 +119,7 @@ def main():
         screen.fill(COLOURS['gray'])
         # Draw characters
         for obj in objects:
-            obj.apply_moves(objects)
+            obj.apply_moves(objects, time_since_update)
 
             # Probably temporary, but draw sprites if provided, else draw blue rectangle
             if obj.sprites:
