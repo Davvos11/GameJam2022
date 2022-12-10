@@ -29,7 +29,6 @@ def main():
                     {'default': [pygame.image.load('sprites/blocks/GrassBlock.png')]},
                     position={'x': 0, 'y': GROUND_HEIGHT})
 
-
     objects = [GROUND, MIEL]
 
     #TODO randomly generate stages
@@ -109,6 +108,7 @@ def rot_center(image, angle):
     rot_rect.center = rot_image.get_rect().center
     rot_image = rot_image.subsurface(rot_rect).copy()
     return rot_image
+
 
 if __name__ == '__main__':
     main()

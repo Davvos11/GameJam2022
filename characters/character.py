@@ -5,7 +5,6 @@ from objects.object import Object
 
 class Character(Object):
     JUMP_FRAMES = 50
-    JUMP_MAX = 2
     """
     :param bounding_box, width and height of model
     :param sprites, set of sprites for the model
@@ -13,7 +12,6 @@ class Character(Object):
     def __init__(self, bounding_box: Dict, sprites: Dict, rotation_speed=0, animation_cooldown=10, position=None, health=100):
         super().__init__(bounding_box=bounding_box, sprites=sprites, rotation_speed=rotation_speed, position=position, has_gravity=True)
         self.health = health
-        self.last_jump_frame = -(Character.JUMP_FRAMES*Character.JUMP_MAX)
         self._start_y = self.rectangle.y
         self.animation_cooldown_max = animation_cooldown
         self.animation_cooldown_current = animation_cooldown
@@ -24,7 +22,6 @@ class Character(Object):
             return
 
         self.move_up(200, Character.JUMP_FRAMES)
-
 
     def animate(self):
         if self.animation_cooldown_current == 0:

@@ -106,9 +106,9 @@ class Object:
         assert delta_y > 0
         self._add_move(delta_y=delta_y, frames=frames, type=type)
 
-
     def animate(self):
         pass
+
 
 class Move:
     def __init__(self, delta_x, delta_y, frames, type=0):
