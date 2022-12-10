@@ -12,7 +12,7 @@ class Object:
     :param sprites, set of sprites for the model
     """
 
-    def __init__(self, bounding_box: Dict, sprites: Dict, position=None, has_gravity=False):
+    def __init__(self, bounding_box: Dict, sprites: Dict, rotation_speed=0, current_animation='default', position=None, has_gravity=False):
         self.delta = (0, Object.GRAVITY)
         self.colliding = {
             'x': False,
@@ -24,6 +24,12 @@ class Object:
         self.width = bounding_box['width']
         self.height = bounding_box['height']
         self.sprites = sprites
+        self.inversed = False
+        self.rotation = 0
+        self.rotation_speed = rotation_speed
+        self.rotation_speed_default = rotation_speed
+        self.current_animation = current_animation
+        self.animation_count = 0
         self.has_gravity = has_gravity
         self.rectangle = pygame.Rect(position['x'], position['y'], self.width, self.height)
         self.moves = []
@@ -100,6 +106,9 @@ class Object:
         assert delta_y > 0
         self._add_move(delta_y=delta_y, frames=frames, type=type)
 
+
+    def animate(self):
+        pass
 
 class Move:
     def __init__(self, delta_x, delta_y, frames, type=0):
