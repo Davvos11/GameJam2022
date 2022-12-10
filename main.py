@@ -1,13 +1,12 @@
 import pygame
 from pygame import *
 import numpy
+from random import shuffle
 
 from characters.miel_monteur import MielMonteur
-from characters.character import Character
 from objects.object import Object
 from stages.test_stage import TestStage
 from stages.test_stage2 import TestStage2
-from stages.stage import Stage
 from stages.brick_stage import BrickStage
 from stages.hill_stage import HillStage
 
@@ -23,6 +22,25 @@ DEBUG_COLOURS = [
 ]
 
 DEBUG = False
+stages = [
+    BrickStage,
+    HillStage,
+    TestStage,
+    TestStage2
+]
+
+
+def generate_stages(previous_cycle, ground_height, start_x):
+    if previous_cycle:
+        while previous_cycle[0] is stages[-1]:
+            shuffle(stages)
+
+    result = []
+    for stage in stages:
+        result.append(stage(start_x, ground_height))
+        start_x += stage.width
+    return result
+
 
 def main():
     # Initialise pygame
@@ -40,20 +58,14 @@ def main():
 
     objects = [GROUND, MIEL]
 
-    #TODO randomly generate stages
-    stages = [
-        # TestStage(start_x=1000, ground_y=GROUND_HEIGHT),
-        # TestStage2(start_x=1500, ground_y=GROUND_HEIGHT),
-        BrickStage(start_x=1000, ground_y=GROUND_HEIGHT),
-        HillStage(start_x=500, ground_y=GROUND_HEIGHT)
-    ]
+    level_stages = generate_stages(None, GROUND_HEIGHT, 500)
 
     obstacles = []
 
     debug_colour_index = 0
     stage_debug_rects = []
 
-    for stage in stages:
+    for stage in level_stages:
         obstacles.extend(stage.obstacles)
         stage_debug_rects.append(get_stage_debug_rect(stage, debug_colour_index, screen.get_height()))
         debug_colour_index = (debug_colour_index + 1) % len(DEBUG_COLOURS)
@@ -66,7 +78,6 @@ def main():
         debug_colour_index = (debug_colour_index + 1) % len(DEBUG_COLOURS)
 
     STEP_SIZE = 1.5
-
 
     # Main loop
     running = True
