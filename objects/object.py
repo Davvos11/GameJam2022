@@ -4,7 +4,7 @@ import pygame
 
 
 class Object:
-    #TODO: Borders with debug mode
+    # TODO: Borders with debug mode
     """
     :param bounding_box, width and height of model
     :param sprites, set of sprites for the model
@@ -23,10 +23,15 @@ class Object:
 
         self.rectangle = pygame.Rect(self._position['x'], self._position['y'], self.width, self.height)
 
-    def _move(self, delta_x=0, delta_y=0):
+    def _move_instant(self, delta_x=0, delta_y=0):
         self.rectangle.move_ip(delta_x, delta_y)
         self._position['x'] += delta_x
         self._position['y'] += delta_y
+
+    def _check_collisions(self, other_objects):
+        rectangles = [object.rectangle for object in other_objects]
+        rectangles.remove(self.rectangle)
+        return self.rectangle.collidelist(rectangles)
 
     def update_position(self, other_objects: ['Object']):
         # Add gravity
@@ -34,38 +39,41 @@ class Object:
             self.speed['y'] += 0.01
 
         # Try to apply movement based on speed (first x then y)
-        for d in ['x', 'y']:
+        for direction in ['x', 'y']:
             # Update the rectangle position
-            self._position[d] += self.speed[d]
+            self._position[direction] += self.speed[direction]
             self.rectangle.x = self._position['x']
             self.rectangle.y = self._position['y']
 
-            # Check for collision
-            rectangles = [obj.rectangle for obj in other_objects]
-            rectangles.remove(self.rectangle)
-            collision = self.rectangle.collidelist(rectangles)
-            if collision > -1:
-                # Set the new position next to / above / below the object it collides with
-                obj: 'Object' = other_objects[collision]
-                self._position[d] = obj._position[d] - (self.width if d == 'x' else self.height)\
-                    if self.speed[d] > 0 else obj._position[d]
-                self.rectangle.x = self._position['x']
-                self.rectangle.y = self._position['y']
-                # Set the speed in this direction to 0
-                self.speed[d] = 0
+            collision = self._check_collisions(other_objects)
+            if collision < 0:
+                continue
 
-    def move_right(self, delta_x):
+            # Set the new position next to / above / below the object it collides with
+            object = other_objects[collision]
+            if self.speed[direction] > 0:
+                self._position[direction] = object._position[direction] - (self.width if direction == 'x' else self.height)
+            else:
+                self._position[direction] = object._position[direction]
+
+            self.rectangle.x = self._position['x']
+            self.rectangle.y = self._position['y']
+            # Set the speed in this direction to 0
+            self.speed[direction] = 0
+
+    def move_right_instant(self, delta_x):
         assert delta_x > 0
-        self._move(delta_x=delta_x)
+        self._move_instant(delta_x=delta_x)
 
-    def move_left(self, delta_x):
+    def move_left_instant(self, delta_x):
         assert delta_x < 0
-        self._move(delta_x=-delta_x)
+        self._move_instant(delta_x=-delta_x)
 
-    def move_up(self, delta_y):
+    def move_up_instant(self, delta_y):
         assert delta_y < 0
-        self._move(delta_y=-delta_y)
+        self._move_instant(delta_y=-delta_y)
 
-    def move_down(self, delta_y):
+    def move_down_instant(self, delta_y):
         assert delta_y > 0
-        self._move(delta_y=delta_y)
+        self._move_instant(delta_y=delta_y)
+

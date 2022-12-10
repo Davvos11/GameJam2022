@@ -42,9 +42,9 @@ def main():
     while running:
         for event in pygame.event.get():
             # Quit on ESCAPE or close
-            if event.type == pygame.KEYDOWN and pygame.key.get_pressed()[pygame.K_ESCAPE]:
-                running = False
             if event.type == pygame.QUIT:
+                running = False
+            if event.type == pygame.KEYDOWN and pygame.key.get_pressed()[pygame.K_ESCAPE]:
                 running = False
 
         # Draw background
