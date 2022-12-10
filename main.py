@@ -27,6 +27,7 @@ def main():
 
 
     objects = [GROUND, MIEL]
+    current_animation = 'default'
 
     #TODO randomly generate stages
     stages = [
@@ -52,7 +53,15 @@ def main():
         # Draw characters
         for obj in objects:
             obj.update_position(objects)
-            pygame.draw.rect(screen, COLOURS['blue'], obj.rectangle)
+
+            # Probably temporary, but draw sprites if provided, else draw blue rectangle
+            if obj.sprites:
+                sprite = obj.sprites[current_animation][obj.animation_count]
+                sprite = pygame.transform.scale(sprite, (obj.width, obj.height))
+                screen.blit(sprite, (obj.rectangle.x, obj.rectangle.y))
+                obj.animation_count = (obj.animation_count + 1) % len(obj.sprites[current_animation])
+            else:
+                pygame.draw.rect(screen, COLOURS['blue'], obj.rectangle)
 
         pygame.display.update()
 
