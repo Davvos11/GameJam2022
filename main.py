@@ -3,9 +3,11 @@ from pygame import *
 import numpy
 
 from characters.miel_monteur import MielMonteur
+from characters.character import Character
 from objects.object import Object
 from stages.test_stage import TestStage
 from stages.test_stage2 import TestStage2
+from stages.stage import Stage
 from stages.brick_stage import BrickStage
 from stages.hill_stage import HillStage
 
@@ -14,6 +16,13 @@ COLOURS = {
     'blue': (0, 0, 255)
 }
 
+DEBUG_COLOURS = [
+    (255, 0, 0), # RED
+    (0, 255, 0), # GREEN
+    (255, 105, 180) # PINK
+]
+
+DEBUG = False
 
 def main():
     # Initialise pygame
@@ -35,18 +44,29 @@ def main():
     stages = [
         # TestStage(start_x=1000, ground_y=GROUND_HEIGHT),
         # TestStage2(start_x=1500, ground_y=GROUND_HEIGHT),
-        # BrickStage(start_x=1000, ground_y=GROUND_HEIGHT),
+        BrickStage(start_x=1000, ground_y=GROUND_HEIGHT),
         HillStage(start_x=500, ground_y=GROUND_HEIGHT)
     ]
 
     obstacles = []
 
+    debug_colour_index = 0
+    stage_debug_rects = []
+
     for stage in stages:
         obstacles.extend(stage.obstacles)
+        stage_debug_rects.append(get_stage_debug_rect(stage, debug_colour_index, screen.get_height()))
+        debug_colour_index = (debug_colour_index + 1) % len(DEBUG_COLOURS)
 
     objects.extend(obstacles)
 
+    object_debug_rects = []
+    for obj in objects:
+        object_debug_rects.append(get_object_debug_rect(obj, debug_colour_index))
+        debug_colour_index = (debug_colour_index + 1) % len(DEBUG_COLOURS)
+
     STEP_SIZE = 1.5
+
 
     # Main loop
     running = True
@@ -99,6 +119,13 @@ def main():
             else:
                 pygame.draw.rect(screen, COLOURS['blue'], obj.rectangle)
 
+        if DEBUG:
+            # for i in range(len(stage_debug_rects)):
+            #     screen.blit(stage_debug_rects[i], (stages[i]., 0))
+
+            for i in range(len(object_debug_rects)):
+                screen.blit(object_debug_rects[i], (objects[i].rectangle.x, objects[i].rectangle.y))
+
         pygame.display.update()
 
     pygame.quit()
@@ -112,6 +139,22 @@ def rot_center(image, angle):
     rot_rect.center = rot_image.get_rect().center
     rot_image = rot_image.subsurface(rot_rect).copy()
     return rot_image
+
+
+def get_stage_debug_rect(stage, debug_colour_index, screen_height):
+    debug_colour = DEBUG_COLOURS[debug_colour_index]
+    debug_rect = pygame.Surface((stage.width, screen_height))
+    debug_rect.set_alpha(50)
+    debug_rect.fill(debug_colour)
+    return debug_rect
+
+
+def get_object_debug_rect(obj, debug_colour_index):
+    debug_colour = DEBUG_COLOURS[debug_colour_index]
+    debug_rect = pygame.Surface((obj.width, obj.height))
+    debug_rect.set_alpha(50)
+    debug_rect.fill(debug_colour)
+    return debug_rect
 
 
 if __name__ == '__main__':
