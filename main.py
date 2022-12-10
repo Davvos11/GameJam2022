@@ -20,9 +20,9 @@ def main():
     # Show window
     screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
 
-    MIEL = MielMonteur({'height': 200, 'width': 50}, {}, {'x': 300, 'y': 500})
-
     GROUND_HEIGHT = screen.get_height() // 4 * 3
+
+    MIEL = MielMonteur({'height': 200, 'width': 50}, {}, {'x': 300, 'y': GROUND_HEIGHT - 200})
     GROUND = Object({'height': screen.get_height() // 4, 'width': screen.get_width()},
                     {}, {'x': 0, 'y': GROUND_HEIGHT})
 
