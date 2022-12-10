@@ -33,21 +33,24 @@ def main():
 
     #TODO randomly generate stages
     stages = [
-        # TestStage(start_x=1000),
-        # TestStage2(start_x=1500),
-        BrickStage(start_x=1000),
-        HillStage(start_x=500)
+        # TestStage(start_x=1000, ground_y=GROUND_HEIGHT),
+        # TestStage2(start_x=1500, ground_y=GROUND_HEIGHT),
+        # BrickStage(start_x=1000, ground_y=GROUND_HEIGHT),
+        HillStage(start_x=500, ground_y=GROUND_HEIGHT)
     ]
 
+    obstacles = []
+
     for stage in stages:
-        objects.extend(stage.obstacles)
+        obstacles.extend(stage.obstacles)
+
+    objects.extend(obstacles)
 
     STEP_SIZE = 1.5
 
     # Main loop
     running = True
     while running:
-        obstacles = [obstacle for obstacle in objects if (obstacle != GROUND and obstacle != MIEL)]
         keys = key.get_pressed()
         # If no key is pressed, make Miel idle
         if not pygame.event.get():
