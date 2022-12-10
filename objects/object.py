@@ -34,7 +34,6 @@ class Object:
         self.rectangle = pygame.Rect(position['x'], position['y'], self.width, self.height)
         self.moves = []
         self.frame = 0
-        self.stable_y = False
 
     def _add_move(self, delta_x=0, delta_y=0, frames=1, type=0):
         self.moves.append(Move(delta_x, delta_y, frames=frames, type=type))
