@@ -1,4 +1,5 @@
 import pygame
+from pygame import *
 import numpy
 
 from characters.miel_monteur import MielMonteur
@@ -37,14 +38,22 @@ def main():
     for stage in stages:
         objects.extend(stage.obstacles)
 
+    STEP_SIZE = 1
+
     # Main loop
     running = True
     while running:
+        keys = key.get_pressed()
+        if keys[K_ESCAPE]:
+            break
+        if keys[K_RIGHT]:
+            MIEL.move_right_instant(STEP_SIZE)
+        if keys[K_LEFT]:
+            MIEL.move_left_instant(STEP_SIZE)
+
         for event in pygame.event.get():
             # Quit on ESCAPE or close
             if event.type == pygame.QUIT:
-                running = False
-            if event.type == pygame.KEYDOWN and pygame.key.get_pressed()[pygame.K_ESCAPE]:
                 running = False
 
         # Draw background
