@@ -39,7 +39,7 @@ def main():
     for stage in stages:
         objects.extend(stage.obstacles)
 
-    STEP_SIZE = 1
+    STEP_SIZE = 1.5
 
     # Main loop
     running = True
@@ -56,12 +56,14 @@ def main():
             # Quit on ESCAPE or close
             if event.type == pygame.QUIT:
                 running = False
+            if pygame.key.get_pressed()[pygame.K_UP]:
+                MIEL.jump()
 
         # Draw background
         screen.fill(COLOURS['gray'])
         # Draw characters
         for obj in objects:
-            obj.update_position(objects)
+            obj.apply_gravity(objects)
 
             # Probably temporary, but draw sprites if provided, else draw blue rectangle
             if obj.sprites:

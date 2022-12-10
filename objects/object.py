@@ -4,6 +4,7 @@ import pygame
 
 
 class Object:
+    GRAVITY = 0.5
     # TODO: Borders with debug mode
     """
     :param bounding_box, width and height of model
@@ -33,33 +34,23 @@ class Object:
         rectangles.remove(self.rectangle)
         return self.rectangle.collidelist(rectangles)
 
-    def update_position(self, other_objects: ['Object']):
-        # Add gravity
-        if self.gravity:
-            self.speed['y'] += 0.01
+    def apply_gravity(self, other_objects: ['Object']):
+        if not self.gravity:
+            return
 
-        # Try to apply movement based on speed (first x then y)
-        for direction in ['x', 'y']:
-            # Update the rectangle position
-            self._position[direction] += self.speed[direction]
-            self.rectangle.x = self._position['x']
-            self.rectangle.y = self._position['y']
+        # Temporarily move the box and see if there are collisions
+        self._position['y'] += Object.GRAVITY
+        self.rectangle.y = self._position['y']
 
-            collision = self._check_collisions(other_objects)
-            if collision < 0:
-                continue
+        # Check for collisions
+        collision = self._check_collisions(other_objects)
+        if collision < 0:
+            # Return can be seen as a commit for the change
+            return
 
-            # Set the new position next to / above / below the object it collides with
-            object = other_objects[collision]
-            if self.speed[direction] > 0:
-                self._position[direction] = object._position[direction] - (self.width if direction == 'x' else self.height)
-            else:
-                self._position[direction] = object._position[direction]
-
-            self.rectangle.x = self._position['x']
-            self.rectangle.y = self._position['y']
-            # Set the speed in this direction to 0
-            self.speed[direction] = 0
+        # If there are collisions, bound to top of the box
+        collision_object = other_objects[collision]
+        self._position['y'] = collision_object.rectangle.top - self.height
 
     def move_right_instant(self, delta_x):
         assert delta_x > 0

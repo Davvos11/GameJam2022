@@ -1,5 +1,5 @@
 from typing import Dict
-
+import time
 
 from objects.object import Object
 
@@ -12,3 +12,6 @@ class Character(Object):
     def __init__(self, bounding_box: Dict, sprites: Dict, position=None, health=100):
         super().__init__(bounding_box, sprites, position, gravity=True)
         self.health = health
+
+    def jump(self):
+        self.speed['y'] = -4
