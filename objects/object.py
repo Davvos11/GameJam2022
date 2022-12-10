@@ -66,11 +66,11 @@ class Object:
         self._move_instant(delta_x=delta_x)
 
     def move_left_instant(self, delta_x):
-        assert delta_x < 0
+        assert delta_x > 0
         self._move_instant(delta_x=-delta_x)
 
     def move_up_instant(self, delta_y):
-        assert delta_y < 0
+        assert delta_y > 0
         self._move_instant(delta_y=-delta_y)
 
     def move_down_instant(self, delta_y):
