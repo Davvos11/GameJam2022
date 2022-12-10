@@ -1,5 +1,4 @@
 from typing import Dict
-import time
 
 from objects.object import Object
 
@@ -14,4 +13,4 @@ class Character(Object):
         self.health = health
 
     def jump(self):
-        self.speed['y'] = -4
+        pass

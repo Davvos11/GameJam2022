@@ -11,4 +11,4 @@ class Stage:
         self.obstacles = obstacles
 
         for obstacle in self.obstacles:
-            obstacle.move_right_instant(self.start_x)
+            obstacle.move_right(self.start_x)

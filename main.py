@@ -48,9 +48,9 @@ def main():
         if keys[K_ESCAPE]:
             break
         if keys[K_RIGHT]:
-            MIEL.move_right_instant(STEP_SIZE)
+            MIEL.move_right(STEP_SIZE)
         if keys[K_LEFT]:
-            MIEL.move_left_instant(STEP_SIZE)
+            MIEL.move_right(STEP_SIZE)
 
         for event in pygame.event.get():
             # Quit on ESCAPE or close
@@ -63,7 +63,7 @@ def main():
         screen.fill(COLOURS['gray'])
         # Draw characters
         for obj in objects:
-            obj.apply_gravity(objects)
+            obj.apply_moves(objects)
 
             # Probably temporary, but draw sprites if provided, else draw blue rectangle
             if obj.sprites:
