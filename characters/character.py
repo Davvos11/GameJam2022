@@ -13,4 +13,4 @@ class Character(Object):
         self.health = health
 
     def jump(self):
-        pass
+        self.move_up(200, 50)

@@ -5,7 +5,7 @@ import pygame
 
 
 class Object:
-    GRAVITY = 0.5
+    GRAVITY = 1
     # TODO: Borders with debug mode
     """
     :param bounding_box, width and height of model
